@@ -6,14 +6,22 @@ variable "base_cidr_block" {
 
 variable "networks" {
   type = list(object({
-    name     = string
+    name    = string
     netmask = number
+    number  = optional(number, 1)
   }))
   description = "A list of objects describing requested subnetwork prefixes. netmask is the requested subnetwork cidr to slice from base_cidr_block"
 }
 
 variable "separator" {
-  type = string
-  default = "/"
+  type        = string
+  default     = "/"
   description = "Used to provide an output of grouped subnets based on a split()[0]."
+}
+
+variable "prefix" {
+  type        = string
+  default     = ""
+  description = "Used to provide an output of grouped subnets based on a split()[1]."
+
 }

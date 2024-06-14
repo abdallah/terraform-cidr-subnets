@@ -14,5 +14,23 @@ output "base_cidr_block" {
 }
 
 output "grouped_by_separator" {
-  value = try({ for _, type in local.name_prefixes: type => { for name, cidr in local.addrs_by_name: split(var.separator, name)[1] => cidr if split(var.separator, name)[0] == type}}, null)
+  value = try({ for _, type in local.name_prefixes : type => {
+    for name, cidr in local.addrs_by_name : split(var.separator, name)[1] => cidr if split(var.separator, name)[0] == type }
+  }, null)
 }
+
+output "grouped_cidr_blocks" {
+  value = try({ for _, type in local.name_prefixes : type => [
+    for name, cidr in local.addrs_by_name : cidr if split(var.separator, name)[0] == type
+  ] }, null)
+}
+output "total_subnets" {
+  value = local.total_subnets
+}
+
+# output "addrs_by_idx" {
+#   value = local.addrs_by_idx
+# }
+# output "networks_netmask_to_bits" {
+#   value = local.networks_netmask_to_bits
+# }
